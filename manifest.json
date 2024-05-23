@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "VideoControls",
     "version": "2024.5.23",
     "description": "Video Controls",
