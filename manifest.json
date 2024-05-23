@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "VideoControls",
+    "version": "2024.5.23",
+    "description": "Video Controls",
+    "permissions": [
+        "<all_urls>"
+    ],
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "css": [
+                "VideoControls.css"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "run_at": "document_start"
+        },
+        {
+            "all_frames": true,
+            "js": [
+                "VideoControls.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "run_at": "document_start"
+        }
+    ]
+}
