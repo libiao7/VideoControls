@@ -3,9 +3,6 @@
     "name": "VideoControls",
     "version": "2024.5.23",
     "description": "Video Controls",
-    "permissions": [
-        "<all_urls>"
-    ],
     "content_scripts": [
         {
             "all_frames": true,
