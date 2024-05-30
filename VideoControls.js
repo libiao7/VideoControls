@@ -60,21 +60,7 @@ addEventListener('touchend', function (e) {
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointerup', function (e) {
     clearTimeout(fullscreensetTimeoutID)
-    if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
-        for(let video of document.querySelectorAll('video')){
-            let videoRect = video.getBoundingClientRect();
-            if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
-                e.stopImmediatePropagation()
-                e.preventDefault()
-                video.requestFullscreen()
-                video.muted = false
-                video.controls = true
-                video.play()
-                break
-            }
-        }
-    }
-    else if (document.fullscreenElement) {
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
         if (document.fullscreenElement==e.target && e.isPrimary) {
