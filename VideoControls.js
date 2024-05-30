@@ -2,45 +2,69 @@ let pointerDownVX
 let pointerDownVY
 let ptDnX
 let ptDnY
+let goFullscreen
 
 addEventListener('pointerdown', function (e) {
     ptDnX = e.screenX
     ptDnY = e.screenY
-    if (e.target.tagName == 'VIDEO') {
+    if (document.fullscreenElement?.tagName == 'VIDEO' && e.isPrimary) {
+        e.target.pause()
         e.stopImmediatePropagation()
         e.preventDefault()
-        if (window !== top && e.target.src.indexOf('http') === 0)
-            location.href = e.target.src.replace('http://', 'https://')
-        else if (document.fullscreenElement==e.target && e.isPrimary) {
-            pointerDownVX = e.screenX
-            pointerDownVY = e.screenY
-            e.target.pause()
-        }
+        pointerDownVX = e.screenX
+        pointerDownVY = e.screenY
     }
-}, { capture: true, passive: false })
+    else if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
+        setTimeout(()=>{
+            if(goFullscreen) for(let video of document.querySelectorAll('video')){
+                let videoRect = video.getBoundingClientRect();
+                if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
+                    e.stopImmediatePropagation()
+                    e.preventDefault()
+                    video.requestFullscreen()
+                    video.muted = false
+                    video.controls = true
+                    video.play()
+                    break
+                }
+            }
+        },255)
+    }
+    else if (window !== top && e.target.src.indexOf('http') === 0)
+            location.href = e.target.src.replace('http://', 'https://')
+}, { capture: true/*, passive: false*/ })
 addEventListener('touchstart', function (e) {
-    if (e.target.tagName == 'VIDEO') {
+    if (document.fullscreenElement) {
+        e.stopImmediatePropagation()
+        e.preventDefault()
+    }
+}, { capture: true/*, passive: false*/ })
+addEventListener('pointermove', function (e) {
+    goFullscreen = false
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
         
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchmove', function (e) {
-    if (e.target.tagName == 'VIDEO') {
+    goFullscreen = false
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
         
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchend', function (e) {
-    if (e.target.tagName == 'VIDEO') {
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
         
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointerup', function (e) {
-    if (!document.fullscreenElement && e.isPrimary&&e.screenX === ptDnX&&e.screenY === ptDnY) {
+    goFullscreen = false
+    if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
         for(let video of document.querySelectorAll('video')){
             let videoRect = video.getBoundingClientRect();
             if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
@@ -56,7 +80,7 @@ addEventListener('pointerup', function (e) {
             }
         }
     }
-    else if (e.target.tagName == 'VIDEO') {
+    else if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
         if (document.fullscreenElement==e.target && e.isPrimary) {
@@ -86,9 +110,9 @@ addEventListener('pointerup', function (e) {
             
         }
     }
-}, { capture: true, passive: false })
+}, { capture: true/*, passive: false*/ })
 addEventListener('click', function (e) {
-    if (e.target.tagName == 'VIDEO') {
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
@@ -98,7 +122,7 @@ addEventListener('dblclick', function (e) {
     e.preventDefault()
 }, { capture: true })
 addEventListener('contextmenu', function (e) {
-    if (e.target.tagName == 'VIDEO') {
+    if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
