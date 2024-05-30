@@ -2,7 +2,7 @@ let pointerDownVX
 let pointerDownVY
 let ptDnX
 let ptDnY
-let goFullscreen
+let fullscreensetTimeoutID
 
 addEventListener('pointerdown', function (e) {
     ptDnX = e.screenX
@@ -15,8 +15,8 @@ addEventListener('pointerdown', function (e) {
         pointerDownVY = e.screenY
     }
     else if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
-        setTimeout(()=>{
-            if(goFullscreen) for(let video of document.querySelectorAll('video')){
+        fullscreensetTimeoutID=setTimeout(()=>{
+            for(let video of document.querySelectorAll('video')){
                 let videoRect = video.getBoundingClientRect();
                 if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
                     e.stopImmediatePropagation()
@@ -40,43 +40,37 @@ addEventListener('touchstart', function (e) {
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointermove', function (e) {
-    goFullscreen = false
+    clearTimeout(fullscreensetTimeoutID)
     if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
-        
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchmove', function (e) {
-    goFullscreen = false
-    if (document.fullscreenElement) {
+   if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
-        
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchend', function (e) {
     if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
-        
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointerup', function (e) {
-    goFullscreen = false
+    clearTimeout(fullscreensetTimeoutID)
     if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
         for(let video of document.querySelectorAll('video')){
             let videoRect = video.getBoundingClientRect();
             if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
                 e.stopImmediatePropagation()
                 e.preventDefault()
-                
-                    video.requestFullscreen()
-                    video.muted = false
-                    e.target.controls = true
-                    video.play()
-                    break
-                
+                video.requestFullscreen()
+                video.muted = false
+                video.controls = true
+                video.play()
+                break
             }
         }
     }
@@ -84,30 +78,28 @@ addEventListener('pointerup', function (e) {
         e.stopImmediatePropagation()
         e.preventDefault()
         if (document.fullscreenElement==e.target && e.isPrimary) {
-            
-                let xMv = Math.abs(e.screenX - pointerDownVX)
-                let yMv = Math.abs(e.screenY - pointerDownVY)
-                if (xMv > 20 && xMv > yMv) {
-                    e.target.currentTime +=  xMv*xMv / 625 * Math.sign(e.screenX - pointerDownVX)
-                    e.target.play()
+            let xMv = Math.abs(e.screenX - pointerDownVX)
+            let yMv = Math.abs(e.screenY - pointerDownVY)
+            if (xMv > 20 && xMv > yMv) {
+                e.target.currentTime +=  xMv*xMv / 625 * Math.sign(e.screenX - pointerDownVX)
+                e.target.play()
+            }
+            else if (yMv > 20 && yMv > xMv) {
+                if(e.screenY>pointerDownVY){
+                    e.target.controls = true
+                    e.target.pause()
+                    e.target.playbackRate = 1
                 }
-                else if (yMv > 20 && yMv > xMv) {
-                    if(e.screenY>pointerDownVY){
-                        e.target.controls = true
-                        e.target.pause()
-                        e.target.playbackRate = 1
-                    }
-                    else if(e.screenY<pointerDownVY){
-                        e.target.controls = false
-                        e.target.playbackRate = 2
-                        e.target.play()
-                    }
-                }
-                else {
+                else if(e.screenY<pointerDownVY){
                     e.target.controls = false
+                    e.target.playbackRate = 2
                     e.target.play()
                 }
-            
+            }
+            else {
+                e.target.controls = false
+                e.target.play()
+            }
         }
     }
 }, { capture: true/*, passive: false*/ })
@@ -126,5 +118,4 @@ addEventListener('contextmenu', function (e) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
-
 }, { capture: true })
