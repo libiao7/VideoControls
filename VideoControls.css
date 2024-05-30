@@ -1,3 +1,25 @@
 video {
-    touch-action:none !important;
+    touch-action: none !important;
+}
+video::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+}
+video:fullscreen[controls]:not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls,
+video:fullscreen[controls]:not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-enclosure,
+video:fullscreen[controls]:not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-panel {
+    display: flex !important;
+}
+video:fullscreen:not([controls]):not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls,
+video:fullscreen:not([controls]):not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-enclosure,
+video:fullscreen:not([controls]):not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+
+
+video::-webkit-media-controls-panel {
+    background-image: none !important;
+    background-size: auto auto !important;
+    transition-property: none !important;
+    transition-duration: 0s !important;
 }
