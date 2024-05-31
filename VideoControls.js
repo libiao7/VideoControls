@@ -89,3 +89,8 @@ addEventListener('contextmenu', function (e) {
         e.preventDefault()
     }
 }, { capture: true })
+addEventListener("visibilitychange", () => {
+    if(document.visibilityState=='hidden'||document.hidden)
+        for(let video of document.querySelectorAll('video'))
+            video.pause()
+})
