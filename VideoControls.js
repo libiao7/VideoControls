@@ -2,7 +2,7 @@ let pointerDownVX
 let pointerDownVY
 let ptDnX
 let ptDnY
-let fullscreensetTimeoutID
+
 
 addEventListener('pointerdown', function (e) {
     ptDnX = e.screenX
@@ -14,53 +14,37 @@ addEventListener('pointerdown', function (e) {
         pointerDownVX = e.screenX
         pointerDownVY = e.screenY
     }
-    else if (!document.fullscreenElement && e.isPrimary/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
-        fullscreensetTimeoutID=setTimeout(()=>{
-            for(let video of document.querySelectorAll('video')){
-                let videoRect = video.getBoundingClientRect();
-                if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
-                    e.stopImmediatePropagation()
-                    e.preventDefault()
-                    video.requestFullscreen()
-                    video.muted = false
-                    video.controls = true
-                    video.play()
-                    break
-                }
+    else if (!document.fullscreenElement && e.isPrimary&&e.width>26/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
+        for(let video of document.querySelectorAll('video')){
+            let videoRect = video.getBoundingClientRect();
+            if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
+                e.stopImmediatePropagation()
+                e.preventDefault()
+                video.requestFullscreen()
+                video.muted = false
+                video.controls = true
+                video.play()
+                break
             }
-        },255)
+        }
     }
-    else if (window !== top && e.target.src.indexOf('http') === 0)
+    else if (window !== top && e.target.src?.indexOf('http') === 0)
             location.href = e.target.src.replace('http://', 'https://')
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchstart', function (e) {
-    if (document.fullscreenElement) {
-        e.stopImmediatePropagation()
-        e.preventDefault()
-    }
-}, { capture: true/*, passive: false*/ })
-addEventListener('pointermove', function (e) {
-    clearTimeout(fullscreensetTimeoutID)
-    if (document.fullscreenElement) {
-        e.stopImmediatePropagation()
-        e.preventDefault()
-    }
-}, { capture: true/*, passive: false*/ })
-addEventListener('touchmove', function (e) {
-   if (document.fullscreenElement) {
+    if (document.fullscreenElement?.tagName == 'VIDEO') {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchend', function (e) {
-    if (document.fullscreenElement) {
+    if (document.fullscreenElement?.tagName == 'VIDEO') {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointerup', function (e) {
-    clearTimeout(fullscreensetTimeoutID)
-    if (document.fullscreenElement) {
+   if (document.fullscreenElement?.tagName == 'VIDEO') {
         e.stopImmediatePropagation()
         e.preventDefault()
         if (document.fullscreenElement==e.target && e.isPrimary) {
@@ -89,7 +73,7 @@ addEventListener('pointerup', function (e) {
         }
     }
 }, { capture: true/*, passive: false*/ })
-addEventListener('click', function (e) {
+/*addEventListener('click', function (e) {
     if (document.fullscreenElement) {
         e.stopImmediatePropagation()
         e.preventDefault()
@@ -98,9 +82,9 @@ addEventListener('click', function (e) {
 addEventListener('dblclick', function (e) {
     e.stopImmediatePropagation()
     e.preventDefault()
-}, { capture: true })
+}, { capture: true })*/
 addEventListener('contextmenu', function (e) {
-    if (document.fullscreenElement) {
+    if (document.fullscreenElement?.tagName == 'VIDEO') {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
