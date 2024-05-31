@@ -1,8 +1,8 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "VideoControls",
-    "version": "2024.5.23",
-    "description": "Video Controls",
+    "version": "2024.5.31",
+    "description": "Simple Video Controls",
     "content_scripts": [
         {
             "all_frames": true,
