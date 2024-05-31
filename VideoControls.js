@@ -14,20 +14,6 @@ addEventListener('pointerdown', function (e) {
         pointerDownVX = e.screenX
         pointerDownVY = e.screenY
     }
-    else if (!document.fullscreenElement && e.isPrimary&&e.width>26/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
-        for(let video of document.querySelectorAll('video')){
-            let videoRect = video.getBoundingClientRect();
-            if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
-                e.stopImmediatePropagation()
-                e.preventDefault()
-                video.requestFullscreen()
-                video.muted = false
-                video.controls = true
-                video.play()
-                break
-            }
-        }
-    }
     else if (window !== top && e.target.src?.indexOf('http') === 0)
             location.href = e.target.src.replace('http://', 'https://')
 }, { capture: true/*, passive: false*/ })
@@ -69,6 +55,20 @@ addEventListener('pointerup', function (e) {
             else {
                 e.target.controls = false
                 e.target.play()
+            }
+        }
+    }
+    else if (!document.fullscreenElement && e.isPrimary&&e.width>26/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
+        for(let video of document.querySelectorAll('video')){
+            let videoRect = video.getBoundingClientRect();
+            if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
+                e.stopImmediatePropagation()
+                e.preventDefault()
+                video.requestFullscreen()
+                video.muted = false
+                video.controls = true
+                video.play()
+                break
             }
         }
     }
