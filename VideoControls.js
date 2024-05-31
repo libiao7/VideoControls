@@ -1,12 +1,10 @@
-let pointerDownVX
-let pointerDownVY
-let ptDnX
-let ptDnY
+let pointerDownVX,pointerDownVY,ptDnX,ptDnY,pointerdownWidth = 0
 
 
 addEventListener('pointerdown', function (e) {
     ptDnX = e.screenX
     ptDnY = e.screenY
+    pointerdownWidth = e.width
     if (document.fullscreenElement?.tagName == 'VIDEO' && e.isPrimary) {
         e.target.pause()
         e.stopImmediatePropagation()
@@ -58,7 +56,7 @@ addEventListener('pointerup', function (e) {
             }
         }
     }
-    else if (!document.fullscreenElement && e.isPrimary&&e.width>26/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
+    else if (!document.fullscreenElement && e.isPrimary&&pointerdownWidth>26/*&&e.screenX === ptDnX&&e.screenY === ptDnY*/) {
         for(let video of document.querySelectorAll('video')){
             let videoRect = video.getBoundingClientRect();
             if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
