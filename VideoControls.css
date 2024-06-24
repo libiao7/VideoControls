@@ -6,12 +6,12 @@ video::-webkit-media-controls-overlay-play-button {
 }
 
 
-video:fullscreen[controls]:not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-panel {
+video:fullscreen[controls]:not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-timeline {
     display: flex !important;
 }
 
 
-video:fullscreen:not([controls]):not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-panel {
+video:fullscreen:not([controls]):not(#_rt4j6w):not(#_rt4j6w)::-webkit-media-controls-timeline {
     display: none !important;
 }
 
