@@ -10,8 +10,6 @@ addEventListener('pointerdown', function (e) {
         pointerDownVX = e.screenX
         pointerDownVY = e.screenY
     }
-    else if (window !== top && e.target.src?.indexOf('http') === 0)
-        location.href = e.target.src.replace('http://', 'https://')
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchstart', function (e) {
     if (document.fullscreenElement?.tagName == 'VIDEO') {
@@ -95,3 +93,21 @@ addEventListener("visibilitychange", () => {
         for (let video of document.querySelectorAll('video'))
             video.pause()
 })
+if (window !== top)
+    document.addEventListener('DOMContentLoaded', function () {
+        new MutationObserver((mutationRecords, o) => {
+            for (let r of mutationRecords) {
+                for (let a of r.addedNodes) {
+                    if (a.nodeType === 1) {
+                        if (a.tagName === 'VIDEO') {
+                            if (a.src?.indexOf('http') === 0)
+                                location.href = a.src.replace('http://', 'https://')
+                        } else for (let v of a.querySelectorAll('video')) {
+                            if (v.src?.indexOf('http') === 0)
+                                location.href = v.src.replace('http://', 'https://')
+                        }
+                    }
+                }
+            }
+        }).observe(document.body, { childList: true, subtree: true })
+    })
