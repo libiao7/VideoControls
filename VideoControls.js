@@ -52,7 +52,7 @@ addEventListener('pointerup', function (e) {
             }
         }
     }
-    else if (!document.fullscreenElement && e.isPrimary && pointerdownWidth > 26) {
+    else if (!document.fullscreenElement && e.isPrimary && pointerdownWidth > 36) {
         for (let video of document.querySelectorAll('video')) {
             let videoRect = video.getBoundingClientRect();
             if (e.clientX >= videoRect.left && e.clientX <= videoRect.right && e.clientY >= videoRect.top && e.clientY <= videoRect.bottom) {
@@ -63,7 +63,11 @@ addEventListener('pointerup', function (e) {
                     vel.style.setProperty('pointer-events', 'auto', 'important')
                     vel = vel.parentElement
                 }
-                video.requestFullscreen()
+                if (location.port === '5244') {
+                    document.querySelector('.art-control-fullscreen').click()
+                }
+                else
+                    video.requestFullscreen()
                 video.muted = false
                 video.controls = true
                 video.play()
