@@ -24,3 +24,12 @@ video::-webkit-media-controls-panel {
     transition-property: none !important;
     transition-duration: 0s !important;
 }
+
+.art-video-player .art-bottom {
+    background-image: none !important;
+}
+
+.art-video-player:fullscreen .art-mask,
+.art-video-player:fullscreen .art-bottom {
+    display: none !important;
+}

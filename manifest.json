@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "VideoControls",
-    "version": "2024.5.23",
+    "version": "2025.2.12",
     "description": "Video Controls",
     "content_scripts": [
         {

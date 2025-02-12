@@ -3,7 +3,7 @@ let pointerDownVX, pointerDownVY, pointerdownWidth = 0
 
 addEventListener('pointerdown', function (e) {
     pointerdownWidth = e.width
-    if (document.fullscreenElement?.tagName == 'VIDEO' && e.isPrimary) {
+    if (document.fullscreenElement?.tagName == 'VIDEO' || document.fullscreenElement?.className.includes('art-video-player') && e.isPrimary) {
         e.target.pause()
         e.stopImmediatePropagation()
         e.preventDefault()
@@ -12,22 +12,22 @@ addEventListener('pointerdown', function (e) {
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchstart', function (e) {
-    if (document.fullscreenElement?.tagName == 'VIDEO') {
+    if (document.fullscreenElement?.tagName == 'VIDEO' || document.fullscreenElement?.className.includes('art-video-player')) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('touchend', function (e) {
-    if (document.fullscreenElement?.tagName == 'VIDEO') {
+    if (document.fullscreenElement?.tagName == 'VIDEO' || document.fullscreenElement?.className.includes('art-video-player')) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
 }, { capture: true/*, passive: false*/ })
 addEventListener('pointerup', function (e) {
-    if (document.fullscreenElement?.tagName == 'VIDEO') {
+    if (document.fullscreenElement?.tagName == 'VIDEO' || document.fullscreenElement?.className.includes('art-video-player')) {
         e.stopImmediatePropagation()
         e.preventDefault()
-        if (document.fullscreenElement == e.target && e.isPrimary) {
+        if (e.target.tagName == 'VIDEO' && e.isPrimary) {
             let xMv = Math.abs(e.screenX - pointerDownVX)
             let yMv = Math.abs(e.screenY - pointerDownVY)
             if (xMv > 20 && xMv > yMv) {
@@ -87,7 +87,7 @@ addEventListener('dblclick', function (e) {
     e.preventDefault()
 }, { capture: true })*/
 addEventListener('contextmenu', function (e) {
-    if (document.fullscreenElement?.tagName == 'VIDEO') {
+    if (document.fullscreenElement?.tagName == 'VIDEO' || document.fullscreenElement?.className.includes('art-video-player')) {
         e.stopImmediatePropagation()
         e.preventDefault()
     }
